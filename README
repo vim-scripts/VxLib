@@ -1,0 +1,30 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3061
+
+Initially developed for vimuiex (vimscript#2606)
+Used by manuals (vimscript#3060)
+
+Contains a Vim Plugin Generator that parses files in autoload directories and creates 
+plugin initialization code for the plugin directory - a single file for all plugins. 
+It searches for specially marked sections in vim files (see vimuiex, manuals).
+
+See http://vimuiex.sourceforge.net/vimdoc/vxlib_plugin.html for details.
+
+The command :VxRegen will start the plugin generator, create the plugin 
+initialization code and update the plugin configuration file (plugins/vxplugin.conf).  
+:VxRegen will execute a Python script using an existing Python installation, so 
+Python must be in your system PATH. 
+
+The configuration file can be edited with :VxConfig. It is a simple win-ini-type 
+file. Currently it is only possible to include/exclude the plugins from the 
+initialization code. To exclude a plugin, put 'generate=0' in the appropriate 
+sections. By default initialization code for all found plugins is generated.
+
+Generated plugins can also be disabled from .vimrc. Each plugin processed by the 
+plugin generator has a unique ID. When the plugins are loaded, this ID is used to 
+check if the plugin should be loaded or not. To disable a plugin with 
+id='vimuiex#textmenu', add 'let g:vxenabled_vimuiex_textmenu=0' to .vimrc.
+
+Related scripts: genutils(vimscript#197), lh-vim-lib(vimscript#214), 
+tlib(vimscript#1863), vim-addon-manager(vimscript#2905), 
+tplugin(vimscript#2917),
+
