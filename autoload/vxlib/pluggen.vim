@@ -31,7 +31,7 @@ function! s:FindConfig(createDir)
          endif
       endif
    endif
-   return plugfile
+   return resolve(expand(plugfile))
 endfunc
 
 " XXX These paths are highly unreliable becaue Vim can't tell me which is

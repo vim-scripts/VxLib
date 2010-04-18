@@ -24,6 +24,8 @@ file_head = '''\
 "   finish
 "endif
 
+${usergen_check_finish}\
+
 let s:exception_list = []
 
 function! s:StrHas(ftrlist)
@@ -35,6 +37,13 @@ function! s:StrHas(ftrlist)
    return join(hftrs, ' ')
 endfunc\
 '''
+
+usergen_finish_block='''
+if !exists("g:vxlib_user_generated_plugins") || !g:vxlib_user_generated_plugins
+   finish
+endif
+'''
+
 plugin_proxies='''
 function! s:Exception(throwpoint, exception, plugid, loadstatus)
    if a:loadstatus != 0
@@ -209,9 +218,13 @@ class CPluginWriter_A:
         global options
         now = datetime.datetime.utcnow()
         dt = "%06x:%04x" % (now.toordinal(), now.hour * 3600 + now.minute * 60 + now.second)
-        out.write(string.Template(file_head).substitute({"timestamp": dt}))
-        if options.standalone: out.write(plugin_proxies_standalone)
-        else: out.write(plugin_proxies)
+
+        tvars = {"timestamp": dt, "usergen_check_finish": ""}
+        if options.usergenerated: tvars["usergen_check_finish"] = usergen_finish_block
+        out.write(string.Template(file_head).substitute(tvars))
+        #if options.standalone: out.write(plugin_proxies_standalone)
+        #else: out.write(plugin_proxies)
+        out.write(plugin_proxies)
 
     def writePluginFunctions(self, plugfuncs, out):
         for f in plugfuncs:
@@ -516,8 +529,10 @@ def readOptions(args=None):
         help="Write the result to the given file. Write to stdout if not set.")
     parser.add_option("", "--one-per-file", action="store_const", const=1, dest="one_per_file", default=0,
         help="Write multiple files, one plugin per file. --output parameter is used for prefix.")
-    parser.add_option("", "--standalone", action="store_const", const=1, dest="standalone", default=0,
-        help="Create a plugin that doesn't use vxlib/plugin.vim.")
+    #parser.add_option("", "--standalone", action="store_const", const=1, dest="standalone", default=0,
+    #    help="Create a plugin that doesn't use vxlib/plugin.vim.")
+    parser.add_option("", "--vxlibautogen", action="store_const", const=0, dest="usergenerated", default=1,
+        help="Create a plugin for users that don't use the plugin generator.")
     parser.add_option("-c", "--config", action="store", type="string", dest="config",
         help="Read plugin settings from the configuration file.")
     parser.add_option("-u", "--update", action="store_const", const=1, dest="update_config", default=0,
