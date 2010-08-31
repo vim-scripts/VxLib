@@ -4,7 +4,7 @@ if exists("g:loaded_vxlib") && g:loaded_vxlib
 endif
 
 " If a user wants to configure the plugins himself, he must add
-"   let g:vxlib_user_generated_plugins=0
+"   let g:vxlib_user_generated_plugins=1
 " to his .vimrc file. Otherwise the plugins will be automatically
 " loaded from the directories vxlibautogen/plugin found in the
 " runtimepath. It is the developers task to generate entries for

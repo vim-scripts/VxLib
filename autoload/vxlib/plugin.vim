@@ -10,7 +10,10 @@ if exists('s:vxlib_plugin_loaded')
 endif
 let s:vxlib_plugin_loaded = 1
 
-" use in a script that needs SID with: exec vxlib#plugin#MakeSID()
+" Use in a script that needs SID/SNR.
+" Example: 
+"     exec vxlib#plugin#MakeSID()
+"     exec 'nmap <F8> :call ' . s:SNR . 'DoIt()<cr>'
 function! vxlib#plugin#MakeSID()
    let sid_script = "map <SID>xx <SID>xx\n" .
       \ "let s:SID = substitute(maparg('<SID>xx'), '<SNR>\\(\\d\\+_\\)xx$', '\\1', '') \n" .
@@ -225,15 +228,8 @@ command VxStatus call s:VxStatus()
 " Special case: can't use #StopLoading before it is created.
 call vxlib#plugin#SetLoaded('#au#vxlib#plugin', 1)
 
-" =========================================================================== 
-" Global Initialization - Processed by Plugin Code Generator
-" =========================================================================== 
-finish
 
-" Checks for the existence of normal plugins
-" Note: atm it doesn't work (well) with plugin-generator-generated plugins
-" <PLUGINFUNCTION id="vxlib#pluginexists" name="PluginExists">
-function! s:PluginExists(name, plugfile)
+function! vxlib#plugin#PluginExists(name, plugfile)
    try
       let knp = g:VxKnownPlugins[a:name]
       return knp != 0
@@ -252,5 +248,17 @@ function! s:PluginExists(name, plugfile)
    endif
    let g:VxKnownPlugins[a:name] = 0
    return 0
+endfunc
+
+" =========================================================================== 
+" Global Initialization - Processed by Plugin Code Generator
+" =========================================================================== 
+finish
+
+" Checks for the existence of normal plugins
+" Note: atm it doesn't work (well) with plugin-generator-generated plugins
+" <PLUGINFUNCTION id="vxlib#pluginexists" name="PluginExists">
+function! s:PluginExists(name, plugfile)
+   return vxlib#plugin#PluginExists(a:name, a:plugfile)
 endfunc
 " </PLUGINFUNCTION>

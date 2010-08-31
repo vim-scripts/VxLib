@@ -1,4 +1,4 @@
-" vim:set fileencoding=utf-8 sw=3 ts=3 et:vim
+" vim:set fileencoding=utf-8 sw=3 ts=8 et:vim
 "
 " Author: Marko Mahnič
 " Created: October 2009
@@ -93,6 +93,7 @@ function! vxlib#cmd#Edit(filename, ...)
    let bnr = bufnr(a:filename)
    if bnr != -1 && bufexists(bnr)
       call vxlib#cmd#GotoBuffer(bnr, winmode)
+      set buflisted " XXX May not be desired, but is convenient for VxBufferList
       return 1
    elseif filereadable(a:filename)
       try

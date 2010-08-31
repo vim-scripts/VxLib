@@ -93,6 +93,30 @@ Example:
    exec 'python vim.eval("' . s:SNR . 'Message()")'
 <
 
+==============================================================================
+POPUP MENU                                                       *vxlib-menu*
+
+Displays a popup menu using one of the supported menu backends:
+   - "popup" - use :popup
+   - "vimuiex" - use vimuiex VxTextMenu
+   - "choice" - use |inputlist()|
+
+If the selected backend isn't available, an available backend is selected. The
+order of backends to choose from can be modified.
+
+Display a Vim popup menu
+------------------------
+>
+   :call vxlib#menu#DoVimMenu('Tools.Spelling', 'vimuiex')
+<
+Displays the Vim menu 'Tools.Spelling' using the menu-backend 'vimuiex'. If
+the backend isn't avialable, another one will be chosen.
+
+To change the order of backends: >
+   let g:vxlib_menu_backend_order = ['vimuiex', 'popup', 'choice']
+<
+
+
 
 
 ## vim:tw=78:noet:wrap:ts=8:ft=help:norl:

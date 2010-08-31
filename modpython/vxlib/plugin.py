@@ -244,7 +244,7 @@ class CPluginWriter_A:
             if p.isGenerated < 1: continue
             tvars = p.getTemplateVars()
             tvars["vxlib_plugin"] = "s:"
-            
+
             # Explicitly enabled/disabled plugin
             enbl = p.getEnabled()
             if enbl == None: tvars["set_enabled"] = ""
@@ -388,7 +388,7 @@ class CPlugFunction:
         print "Block: '%s' File: %s" % (self.funcId, self.filename)
         print "  The function with name '%s' is not defined." % (self.funcName)
         self.usecount = 1
-        
+
 
 class CStdout:
     def write(self, str):
@@ -428,7 +428,7 @@ class State:
     @property
     def posStr(self):
         return "%s:%d" % (self.shortFilename, self.line)
-    
+
 
 def parseStartup(state, plugin):
     if plugin.codeStartup == None: plugin.codeStartup = []
